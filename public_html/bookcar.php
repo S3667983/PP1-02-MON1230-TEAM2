@@ -69,8 +69,6 @@ if(isset($_POST['book'])){
                         <li><a href="booking.php">Create Booking</a></li>
                         <li><a href="managebooking.php">Manage Booking</a></li>
                         <li><a href="#">Location</a></li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Contact us</a></li>
                         <li><a href="logout.php">Logout</a></li>
                     </ul>
                 </nav>
@@ -151,7 +149,9 @@ if(isset($_POST['book'])){
             ?>
 
         </div>
-
+        <?php
+            include('footer.php');
+        ?>
     </body>
 
 </html>

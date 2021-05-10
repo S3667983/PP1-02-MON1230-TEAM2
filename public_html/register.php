@@ -63,9 +63,7 @@ if(isset($_POST['username'])){
                         <!--<li><a href="#">Car/ Rental Information</a></li>
                         <li><a href="#">Create Booking</a></li>
                         <li><a href="#">Manage Booking</a></li>
-                        <li><a href="#">Location</a></li>
-                        <li><a href="#">About us</a></li>
-                        <li><a href="#">Contact us</a></li> -->
+                        <li><a href="#">Location</a></li> -->
                         <li><a href="users.php">Users</a></li>
                         <li><a href="cars.php">Cars</a></li>
                         <li><a href="logout.php">Logout</a></li>
@@ -110,7 +108,11 @@ if(isset($_POST['username'])){
                 </form>
 
             </div>
+            <?php
+            include('footer.php');
+            ?>
         </body>
+        
 
         </html>
 
