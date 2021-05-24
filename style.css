@@ -4,6 +4,15 @@ body{
     font-weight: 200;
 }
 
+.child {
+    position: absolute;
+    top: 25%;
+    left: 40%;
+    margin: auto;
+    padding: 10px;
+    border: 1px solid black;
+}
+
 .container {
     width: 80%;
     margin: 0 auto;
