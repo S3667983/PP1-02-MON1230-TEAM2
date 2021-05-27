@@ -1,22 +1,37 @@
 body{
+    margin-top: 120px;
     background: #FFFFFF;
     font-family: sans-serif;
     font-weight: 200;
 }
 
-.container {
+body h1{
     width: 80%;
     margin: 0 auto;
 }
 
+.container {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.child {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 header {
-background: #838996;
-color: white;
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100px;
+    background: #838996;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
 }
 
 header::after { /* Fixes the header issue of not showing*/
@@ -34,20 +49,20 @@ header::after { /* Fixes the header issue of not showing*/
 }
 
 nav {
-    float: right;
+    float: center;
 }
 
 nav ul {
-margin: 0px;
-padding: 0px;
-list-style: none;
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
 }
 
 nav li {
     display: inline-block;
-    text-align: centre;
+    text-align: center;
     margin-left: 50px;
-    padding-top: 25px;
+    padding-top: 40px;
 
     position: relative; /* Relative to page window and not screen size*/
 }
@@ -65,7 +80,7 @@ nav a:hover {
 
 nav a:before {
     content: '';
-    display: block;
+    display: inline-block;
     height: 6px;
     width: 100%;
     background-color: #443;
@@ -74,9 +89,188 @@ nav a:before {
     width: 0%;
 }
 
+/* INDEX PAGE */
+
+.slider {
+    width: 100%;
+    height: 500px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.slides {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-points-x: repeat(300px);
+    scroll-snap-type: mandatory;
+}
+.slides::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+.slides::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 10px;
+}
+.slides::-webkit-scrollbar-track {
+    background: transparent;
+}
+.slides > div {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: 100%;
+    height: 490px;
+    margin-right: 60px;
+    border-radius: 10px;
+    background: #eee;
+    transform-origin: center center;
+    transform: scale(1);
+    transition: transform 0.5s;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+}
+
+.slides > div:target {
+    transform: scale(0.8);
+}
+.author-info {
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 0.75rem;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+}
+
+.slides img {
+    position: flex;
+    top: 0;
+    left: 100;
+    max-width: auto;  
+    height: auto;
+}
+
+.slider > a {
+    display: inline-flex;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: white;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 60%;
+    margin: 0 0 0.5rem 0;
+    position: relative;
+}
+
+.slider > a:active {
+    top: 1px;
+}
+
+.slider > a:focus {
+    background: #000;
+}
+
+/* FORMS */
+
+* { box-sizing: border-box }
+
+.wrapper {
+    margin: auto;
+    padding: 25px 50px;
+    width: 350px;
+    min-height: 115px;
+    background: #fff;
+    border-left: 5px solid #Fdd04c;
+    box-shadow: 0 0 20px rgba(0,0,0,.15);
+    font: 12px/15px Arial, Helvetica, sans-serif;
+    color: #666;
+}
+
+.wrapper p{
+    text-align: left;
+    font-size: 14px;
+}
+
+.wrapper a:visited, a:link, a:active{
+    text-decoration: none;
+}
+
+.wrapper h1 {
+    line-height: 40px;
+    width: inherit;
+}
+
+.wrapper h7{
+    font-size: 14px;
+}
+
+input, select, textarea {
+    position: relative;
+    z-index: 10;
+    margin-bottom: 10px;
+    padding: 0 5px;
+    width: 225px;
+    height: 30px;
+    border: 1px solid #ccc;
+}
+
+textarea{
+    height: 100px;
+    font-family: inherit;
+}
+
+#priv{
+    position: inherit;
+    height: 15px;
+    width: 15px;
+    background-color: #000000;
+}
+
+#submit:hover {
+    color: #025;
+    background: #949494;
+    border-color: #000000;
+}
+
+/* FLEXBOX STYLE LAYOUT */
+
+.container h1 {
+    line-height: 40px;
+}
+
+.item {
+    width: 33%;
+}
+
+#booking {
+    width: 25%;
+    text-align: center;
+}
+
+
+/*BOOKING.PHP PAGE */
+
+.item img {
+    width: 55%;
+    height: 55%;
+    border-radius: 7px;
+}
+
+/* FOOTER */
+
 footer {
     background: #838996;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;

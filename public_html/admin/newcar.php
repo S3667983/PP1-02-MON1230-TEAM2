@@ -3,10 +3,13 @@ session_start();
 require_once('../includes/dbconn.php');
 
 if(empty($_SESSION['admin'])){
+    //if admin isnt logged in
     header("Location: ../adminportal.php");
 }
 
 if(isset($_POST['id'])){
+
+    //if admin posts the new car form
 
     $id = $_POST['id'];
     $make = $_POST['make'];
@@ -16,13 +19,12 @@ if(isset($_POST['id'])){
     $price = $_POST['price'];
     $odometer = $_POST['odometer'];
     $transmission = $_POST['transmission'];
-    $condition = $_POST['condition'];
 
-    $query =    "INSERT INTO CAR(ID, MAKE, MODEL, POSTCODE, YEAR, PRICE, ODOMETER, TRANSMISSION, CONDITION)" .
-        "VALUES('".$id."','".$make."','".$model."','".$postcode."','".$year."','".$price."','".$odometer."','".$transmission."','".$condition."')";
+    $stid =    "INSERT INTO CAR(ID, MAKE, MODEL, POSTCODE, YEAR, PRICE, ODOMETER, TRANSMISSION)" .
+        "VALUES('".$id."','".$make."','".$model."','".$postcode."','".$year."','".$price."','".$odometer."','".$transmission."')";
 
 
-    $compiled = oci_parse($conn, $query);
+    $compiled = oci_parse($conn, $stid);
 
     oci_execute($compiled);
     oci_close($conn);
@@ -44,24 +46,20 @@ if(isset($_POST['id'])){
 
     <body>
 
-        <header>
-            <div class="container">
+        <?php include '../includes/adminheader.php'; 
 
-                <img src="../img/logo.png" alt="logo" class="logo">
+        //select all location data, ordering by postcode to display in the car location dropdown
 
-                <nav>
-                    <ul>
-                        <li><a href="users.php">Users</a></li>
-                        <li><a href="cars.php">Cars</a></li>
-                        <li><a href="logout.php">Admin Portal Logout</a></li>
-                    </ul>
-                </nav>
-            </div>
+        $stid = 'SELECT * FROM LOCATION ORDER BY POSTCODE';
 
+        $stid = oci_parse($conn, $stid);
+        oci_execute($stid);
 
-        </header>
+        oci_close($conn);
 
-        <div class="container">
+        ?>
+
+        <div class="wrapper">
 
             <div>
                 <h1>New Car: </h1>
@@ -69,75 +67,29 @@ if(isset($_POST['id'])){
 
             <form action="#" method="post">
 
-                <input type="text" id="id" name="id" placeholder="ID" required><br>
-                <input type="text" id="make" name="make" placeholder="Make"required><br>
-                <input type="text" id="model" name="model" placeholder="Model"required><br>
-                <input type="text" id="year" name="year" placeholder="Year" pattern="[0-9]{4}" required><br>
-                <input type="text" id="odometer" name="odometer" placeholder="Odometer (KM)" pattern="[0-9]{0-7}" required><br>
-                <select name="condition" class="select"required>
-                    <option value="" selected disabled hidden>Condition</option>
-                    <option value="New">New</option>
-                    <option value="Used">Used</option>
-                </select><br>
+                <input type="text" name="id" placeholder="Car ID" required><br>
+                <input type="text" name="make" placeholder="Make"required><br>
+                <input type="text" name="model" placeholder="Model"required><br>
+                <input type="text" name="year" placeholder="Year" pattern="[0-9]{4}" required><br>
+                <input type="text" name="odometer" placeholder="Odometer (KM)" pattern="[0-9]{0-7}" required><br>
                 <select name="transmission" class="select"required>
                     <option value="" selected disabled hidden>Transmission</option>
                     <option value="Automatic">Automatic</option>
                     <option value="Manual">Manual</option>
                     <option value="Semi-Auto">Semi-Automatic</option>
                 </select><br>
-                <input type="text" id="postcode" name="postcode" placeholder="Postcode" pattern="[0-9]{4}" required><br>
-                <input type="text" id="price" name="price" placeholder="Price" pattern="[0-9]{0-7}" required><br>
+                <select name="postcode" class="select" required>
+                    <option value="" selected disabled hidden>Location </option>
+                    <?php while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) { // location dropdown ?>
+                    <option value="<?php echo $row[0] ?>">  <?php echo $row[3] . ", " . $row[1] . " " . $row[0]?>  </option>
+                    <?php } ?>
+                </select><br>
+                <input type="text" name="price" placeholder="Base Price ($AUD)" pattern="[0-9]{0-7}" required><br>
                 <br>
-                <input type="submit" value="Create" class="btn">
+                <input type="submit" value="Create" id="submit">
             </form>
 
         </div>
     </body>
 
 </html>
-
-<!--
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Login</title>
-</head>
-<link rel="stylesheet" href="loginregisterstyle.css" type="text/css">
-<body>
-<div class="container">
-<form action="">
-<div class="form-group">
-<label for="regFullName"><b>Full Name</b></label>
-<input type="text" placeholder="Full Name" name="regFullName" id="regFullName" required>
-</div>
-
-<div class="form-group">
-<label for="regUserName"><b>Username</b></label>
-<input type="text" placeholder="Username" name="regUserName" id="regUserName" required>
-</div>
-
-<div class="form-group">
-<label for="logPassword"><b>Password</b></label>
-<input type="text" placeholder="Password" name="logPassword" id="logPassword" required>
-</div>
-
-<div class="form-group">
-<label for="regDOB"><b>Date of Birth</b></label>
-<input type="date" placeholder="" name="regDOB" id="regDOB" required>
-</div>
-
-<div class="form-group">
-<label for="regPhone"><b>Phone Number</b></label>
-<input type="number" placeholder="Phone Number" name="regPhone" id="regPhone" required>
-</div>
-
-
-<input type="submit" class="btn" value="Register" name="regButton" id="regButton" onclick="window.location.href='login.html'">
-</form>
-</div>
-
-
-</body>
-
-</html> --!>

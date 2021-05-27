@@ -3,18 +3,24 @@ session_start();
 require_once('includes/dbconn.php');
 
 if(isset($_SESSION['user']) || isset($_SESSION['admin'])){
+    //if user or admin is already logged in
     header('Location: index.php');
 }
+
+$statuspage = '';
+$status = '';
 
 if(isset($_POST['username'])){
 
     $user = $_POST['username'];
     $pass = $_POST['pass'];
 
-    $query = "SELECT * FROM ACCOUNTS WHERE USERNAME = '".$user."' and PASSWORD = '".$pass."'";
+    $query = "SELECT * FROM ACCOUNT WHERE USERNAME = '".$user."' and PASSWORD = '".$pass."'";
     $result = oci_parse($conn, $query);
     oci_execute($result);
     $numrows = oci_fetch_all($result, $res);
+    
+    //if there is a match to the username and pass in the database
 
     if($numrows > 0){
         $_SESSION['user'] = $user;
@@ -34,22 +40,7 @@ if(isset($_POST['username'])){
     </head>
 
 
-    <header>
-        <div class="container">
-
-            <img src="img/logo.png" alt="logo" class="logo">
-
-            <nav>
-                <ul>
-                    <li><a href="#">Car/ Rental Information</a></li>
-                    <li><a href="#">Create Booking</a></li>
-                    <li><a href="#">Manage Booking</a></li>
-                    <li><a href="#">Location</a></li>
-                    <li><a href="login.php">Login</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <?php include 'includes/header.php';?>
 
     <div class="wrapper">
 
@@ -57,14 +48,16 @@ if(isset($_POST['username'])){
             <h1>Login: </h1>
         </div>
 
-        <form action="#" method="post">
-            <input type="text" id="username" name="username" placeholder="Username" required><br>
-            <input type="password" id="pass" name="pass" placeholder="Password" required><br><br>
-            <input type="submit" value="Log In">
+        <form action="#" method="post" class="login">
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="pass" placeholder="Password" required><br><br>
+            <input type="submit" id="submit" value="Log In">
         </form>
+        
+        <p><a href="register.php">Register a New Account</a></p>
 
     </div>
-    <?php
-        include('footer.php');
-    ?>
+
+    <?php include 'includes/footer.php';?>
+    
 </html>

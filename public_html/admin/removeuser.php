@@ -13,11 +13,13 @@ if(!isset($_GET['user'])){
 }else{
 
     $user = $_GET['user'];
+    
+    //delete user data where username matches
 
-    $delete = "DELETE FROM ACCOUNTS WHERE USERNAME = '".$user."'";
+    $delete = "DELETE FROM ACCOUNT WHERE USERNAME = '".$user."'";
 
-    $stid2 = oci_parse ($conn, $delete);
-    oci_execute($stid2);
+    $stid = oci_parse ($conn, $delete);
+    oci_execute($stid);
 
     header("Location: users.php");  
 

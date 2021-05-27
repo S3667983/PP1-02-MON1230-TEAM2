@@ -3,24 +3,32 @@ session_start();
 require_once('../includes/dbconn.php');
 
 if(empty($_SESSION['admin'])){
+    //if admin isnt logged in
     header("Location: ../adminportal.php");
 }
 
 if(isset($_POST['id'])){
 
+    //if admin posts location data
+
     $id = $_POST['id'];
     $name = $_POST['name'];
+    $address = $_POST['address'];
+    $desc = $_POST['desc'];
+    $lat = $_POST['lat'];
+    $lon = $_POST['lon'];
 
-    $query =    "INSERT INTO LOCATION(POSTCODE, NAME)" .
-        "VALUES('".$id."','".$name."')";
+    print_r($_POST);
 
+    $stid =    "INSERT INTO LOCATION(POSTCODE, NAME, DESCRIPTION, ADDRESS, LAT, LON)" .
+        "VALUES('".$id."','".$name."','".$desc."','".$address."','".$lat."','".$lon."')";
 
-    $compiled = oci_parse($conn, $query);
+    $compiled = oci_parse($conn, $stid);
 
     oci_execute($compiled);
     oci_close($conn);
 
-    header("Location: locations.php");
+    //header("Location: locations.php");
 
 }
 
@@ -37,25 +45,9 @@ if(isset($_POST['id'])){
 
     <body>
 
-        <header>
-            <div class="container">
+        <?php include '../includes/adminheader.php';?>
 
-                <img src="../img/logo.png" alt="logo" class="logo">
-
-                <nav>
-                    <ul>
-                        <li><a href="users.php">Users</a></li>
-                        <li><a href="cars.php">Cars</a></li>
-                        <li><a href="locations.php">Locations</a></li>
-                        <li><a href="logout.php">Admin Portal Logout</a></li>
-                    </ul>
-                </nav>
-            </div>
-
-
-        </header>
-
-        <div class="container">
+        <div class="wrapper">
 
             <div>
                 <h1>New Location: </h1>
@@ -63,59 +55,18 @@ if(isset($_POST['id'])){
 
             <form action="#" method="post">
 
-                <input type="text" id="id" name="id" placeholder="Postcode" required><br>
-                <input type="text" id="name" name="name" placeholder="Name"required><br>
+                <input type="text" name="id" placeholder="Postcode" required><br>
+                <input type="text" name="name" placeholder="Suburb"required><br>
+                <input type="text" name="address" placeholder="Address"required><br>
+                <input type="text" name="desc" placeholder="Description"required><br>
+                <input type="text" name="lat" placeholder="Latitude" pattern="^-?[0-9]\d*(\.\d+)?$" maxlength="7" required><br> <!-- pattern allows max length of 7 characters and numbers with decimals to allow for latitude and longitude -->
+                <input type="text" name="lon" placeholder="Longitude" pattern="^-?[0-9]\d*(\.\d+)?$" maxlength="7" required><br>
                 <br>
-                <input type="submit" value="Create" class="btn">
+                <input type="submit" value="Create" id="submit">
+
             </form>
 
         </div>
     </body>
 
 </html>
-
-<!--
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<title>Login</title>
-</head>
-<link rel="stylesheet" href="loginregisterstyle.css" type="text/css">
-<body>
-<div class="container">
-<form action="">
-<div class="form-group">
-<label for="regFullName"><b>Full Name</b></label>
-<input type="text" placeholder="Full Name" name="regFullName" id="regFullName" required>
-</div>
-
-<div class="form-group">
-<label for="regUserName"><b>Username</b></label>
-<input type="text" placeholder="Username" name="regUserName" id="regUserName" required>
-</div>
-
-<div class="form-group">
-<label for="logPassword"><b>Password</b></label>
-<input type="text" placeholder="Password" name="logPassword" id="logPassword" required>
-</div>
-
-<div class="form-group">
-<label for="regDOB"><b>Date of Birth</b></label>
-<input type="date" placeholder="" name="regDOB" id="regDOB" required>
-</div>
-
-<div class="form-group">
-<label for="regPhone"><b>Phone Number</b></label>
-<input type="number" placeholder="Phone Number" name="regPhone" id="regPhone" required>
-</div>
-
-
-<input type="submit" class="btn" value="Register" name="regButton" id="regButton" onclick="window.location.href='login.html'">
-</form>
-</div>
-
-
-</body>
-
-</html> --!>

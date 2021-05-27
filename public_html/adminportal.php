@@ -2,9 +2,16 @@
 session_start();
 require_once('includes/dbconn.php');
 
-if(isset($_SESSION['user']) || isset($_SESSION['admin'])){
+if(isset($_SESSION['user'])){
+    //if user is logged in
     header('Location: index.php');
+}else if(isset($_SESSION['admin'])){
+    //if admin is already logged in
+    header('Location: admin/index.php');
 }
+
+$statuspage = '';
+$status = '';
 
 if(isset($_POST['username'])){
 
@@ -15,6 +22,8 @@ if(isset($_POST['username'])){
     $result = oci_parse($conn, $query);
     oci_execute($result);
     $numrows = oci_fetch_all($result, $res);
+
+    //if admin user and pass matches the database logins
 
     if($numrows > 0){
         $_SESSION['admin'] = "admin";
@@ -34,9 +43,7 @@ if(isset($_POST['username'])){
     </head>
 
 
-    <?php
-        include('adminHeader.php');
-    ?>
+    <?php include 'includes/header.php';?>
 
     <div class="wrapper">
 
@@ -45,13 +52,10 @@ if(isset($_POST['username'])){
         </div>
 
         <form action="#" method="post">
-            <input type="text" id="username" name="username" placeholder="Username" required><br>
-            <input type="password" id="pass" name="pass" placeholder="Password" required><br><br>
-            <input type="submit" value="Log In">
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="pass" placeholder="Password" required><br><br>
+            <input type="submit" value="Log In" id="submit">
         </form>
 
     </div>
-    <?php
-        include('footer.php');
-    ?>
 </html>

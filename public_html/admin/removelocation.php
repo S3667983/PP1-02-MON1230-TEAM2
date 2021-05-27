@@ -14,11 +14,13 @@ if(!isset($_GET['id'])){
 
 
     $id = $_GET['id'];
+    
+    //delete location data where id/ postcode matches
 
     $delete = "DELETE FROM LOCATION WHERE POSTCODE = '".$id."'";
 
-    $stid2 = oci_parse ($conn, $delete);
-    oci_execute($stid2);
+    $stid = oci_parse ($conn, $delete);
+    oci_execute($stid);
 
     header("Location: locations.php");  
 }

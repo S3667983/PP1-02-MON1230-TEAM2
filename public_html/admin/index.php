@@ -4,6 +4,7 @@ session_start();
 require_once('../includes/dbconn.php');
 
 if(empty($_SESSION['admin'])){
+    //if admin isnt logged in
     header("Location: ../adminportal.php");
 }
 
@@ -20,22 +21,7 @@ if(empty($_SESSION['admin'])){
 
     <body>
 
-        <header>
-            <div class="container">
-
-                <img src="../img/logo.png" alt="logo" class="logo">
-
-                <nav>
-                    <ul>
-                        <li><a href="users.php">Users</a></li>
-                        <li><a href="cars.php">Cars</a></li>
-                        <li><a href="logout.php">Admin Portal Logout</a></li>
-                    </ul>
-                </nav>
-            </div>
-
-
-        </header>
+        <?php include '../includes/adminheader.php';?>
 
     </body>
 

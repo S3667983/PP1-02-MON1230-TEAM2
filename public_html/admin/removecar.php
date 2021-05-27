@@ -14,11 +14,13 @@ if(!isset($_GET['id'])){
 
 
     $id = $_GET['id'];
+    
+    //delete car data where car id matches
 
     $delete = "DELETE FROM CAR WHERE ID = '".$id."'";
 
-    $stid2 = oci_parse ($conn, $delete);
-    oci_execute($stid2);
+    $stid = oci_parse ($conn, $delete);
+    oci_execute($stid);
 
     header("Location: cars.php");  
 }
