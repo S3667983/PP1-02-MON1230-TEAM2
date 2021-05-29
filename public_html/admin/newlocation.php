@@ -18,8 +18,6 @@ if(isset($_POST['id'])){
     $lat = $_POST['lat'];
     $lon = $_POST['lon'];
 
-    print_r($_POST);
-
     $stid =    "INSERT INTO LOCATION(POSTCODE, NAME, DESCRIPTION, ADDRESS, LAT, LON)" .
         "VALUES('".$id."','".$name."','".$desc."','".$address."','".$lat."','".$lon."')";
 
@@ -28,7 +26,7 @@ if(isset($_POST['id'])){
     oci_execute($compiled);
     oci_close($conn);
 
-    //header("Location: locations.php");
+    header("Location: locations.php");
 
 }
 

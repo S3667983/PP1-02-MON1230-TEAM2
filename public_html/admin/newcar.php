@@ -9,7 +9,7 @@ if(empty($_SESSION['admin'])){
 
 if(isset($_POST['id'])){
 
-    //if admin posts the new car form
+    //if admin posts the new car form    
 
     $id = $_POST['id'];
     $make = $_POST['make'];
@@ -66,7 +66,6 @@ if(isset($_POST['id'])){
             </div>
 
             <form action="#" method="post">
-
                 <input type="text" name="id" placeholder="Car ID" required><br>
                 <input type="text" name="make" placeholder="Make"required><br>
                 <input type="text" name="model" placeholder="Model"required><br>

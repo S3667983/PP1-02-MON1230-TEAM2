@@ -30,10 +30,10 @@ if(isset($_SESSION['user'])){
 
         if(isset($_GET['postcode'])){
             //if get postcode is set then get cars only from the selected postcode
-            $stid = "SELECT * FROM CAR JOIN LOCATION ON LOCATION.POSTCODE = CAR.POSTCODE WHERE CAR.POSTCODE = '" .$_GET['postcode']. "' ORDER BY CAR.ID";
+            $stid = "SELECT * FROM CAR JOIN LOCATION ON LOCATION.POSTCODE = CAR.POSTCODE WHERE CAR.POSTCODE = '" .$_GET['postcode']. "' ORDER BY LOCATION.POSTCODE, CAR.PRICE";
         }else{
             //select all cars
-            $stid = 'SELECT * FROM CAR JOIN LOCATION ON LOCATION.POSTCODE = CAR.POSTCODE ORDER BY CAR.ID';
+            $stid = 'SELECT * FROM CAR JOIN LOCATION ON LOCATION.POSTCODE = CAR.POSTCODE ORDER BY LOCATION.POSTCODE, CAR.PRICE';
         }
 
         $stid = oci_parse($conn, $stid);

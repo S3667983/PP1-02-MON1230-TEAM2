@@ -75,7 +75,7 @@ if(isset($_POST['update'])){
         } 
 
         //select location data to display in the edit car location dropdown
-        $stid = 'SELECT * FROM LOCATION';
+        $stid = 'SELECT * FROM LOCATION ORDER BY POSTCODE';
 
         $stid = oci_parse($conn, $stid);
         oci_execute($stid);

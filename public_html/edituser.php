@@ -1,27 +1,25 @@
 <?php
 session_start();
-require_once('../includes/dbconn.php');
+require_once('includes/dbconn.php');
 
-if(empty($_SESSION['admin'])){
-    //if admin isnt logged in
-    header("Location: ../adminportal.php");
+if(empty($_SESSION['user'])){
+    //if user isnt logged in, redirect to login page
+    header("Location: login.php");
+
+}else if(isset($_SESSION['admin'])){
+    //if admin is logged in, prevent from viewing page
+    header("Location: index.php");
 }
 
-if(!isset($_GET['user'])){
-    //if get user isnt set
-    header("Location: users.php");
+$user = $_SESSION['user'];
 
-}else{
-
-    $user_get = $_GET['user'];
-
-}
+$statuspage = 'logout.php';
+$status = 'Logout, ' . $user;
 
 if(isset($_POST['update'])){
 
     //if admin posts update user data
-
-    $p_user = $_POST['user'];
+    
     $p_pass = $_POST['pass'];
     $p_fname = $_POST['fname'];
     $p_lname = $_POST['lname'];
@@ -33,32 +31,33 @@ if(isset($_POST['update'])){
     $p_phone = $_POST['phone'];
 
     $update = "UPDATE ACCOUNT
-                SET USERNAME = '".$p_user."', PASSWORD = '".$p_pass."', FIRSTNAME = '".$p_fname."', LASTNAME = '".$p_lname."', EMAIL = '".$p_email."', ADDRESS = '".$p_address."', STATE = '".$p_state."', SUBURB = '".$p_suburb."', POSTCODE = '".$p_postcode."', PHONE = '".$p_phone."'
-                WHERE USERNAME = '".$user_get."'";
+                SET PASSWORD = '".$p_pass."', FIRSTNAME = '".$p_fname."', LASTNAME = '".$p_lname."', EMAIL = '".$p_email."', ADDRESS = '".$p_address."', STATE = '".$p_state."', SUBURB = '".$p_suburb."', POSTCODE = '".$p_postcode."', PHONE = '".$p_phone."'
+                WHERE USERNAME = '".$user."'";
+
 
     $stid = oci_parse ($conn, $update);
 
     oci_execute($stid);
 
-    header("Location: users.php");
+    header("Location: booking.php");
 
 }
 
 ?>
 <html>
     <head>
-        <link rel="stylesheet" href="../style.css">
+        <link rel="stylesheet" href="style.css">
         <meta charset="UTF-8">
-        <title>Admin Portal</title>
+        <title>Car Share Co.</title>
     </head>
 
 
     <body>
 
-        <?php include '../includes/adminheader.php';
+        <?php include 'includes/header.php';
 
         //select all user data where username matches
-        $query = "SELECT * FROM ACCOUNT WHERE USERNAME = '".$user_get."'";
+        $query = "SELECT * FROM ACCOUNT WHERE USERNAME = '".$user."'";
 
         $stid = oci_parse ($conn, $query);
         oci_execute($stid);
@@ -80,12 +79,12 @@ if(isset($_POST['update'])){
         <div class="wrapper">
 
             <div>
-                <h1>Edit User: <br></h1>
+                <h1>Edit/ Delete Account: <br></h1>
             </div>
 
             <form action="#" method="post">
                 <h7>Username:</h7><br>
-                <input type="text" name="user" value="<?php echo $user_get ?>" required><br>
+                <input type="text" name="user" value="<?php echo $user ?>" disabled required><br>
                 <h7>Password:</h7><br>
                 <input type="password" name="pass" value="<?php echo $pass ?>" required><br>
                 <h7>First Name:</h7><br>
@@ -112,6 +111,8 @@ if(isset($_POST['update'])){
                 <br>
                 <input type="submit" value="Update" name="update" id="submit">
             </form>
+            
+            <p><b><a href="deleteuser.php">Delete Account</a></b></p>
 
             <?php
     oci_close($conn);

@@ -6,6 +6,8 @@ require_once('../includes/dbconn.php');
 if(empty($_SESSION['admin'])){
     //if admin isnt logged in
     header("Location: ../adminportal.php");
+}else{
+    header("Location: cars.php");
 }
 
 ?>

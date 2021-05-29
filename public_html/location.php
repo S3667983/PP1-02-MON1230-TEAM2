@@ -41,28 +41,27 @@ if(isset($_POST['postcode'])){
 
 }
 
-function locationProximity($locations, $postcode) {
+function locationProximity($locs, $postcode) {
 
     //find closest postcode from the inputted postcode
 
-    sort($locations);
+    sort($locs); //locs for locations
 
-    foreach ($locations as $locs) {
+    foreach ($locs as $l) {
 
-        if ($locs > $postcode){
-            //if distance between number in array and postcode is closer than the previous distance
-            if(($locs-$number)<($postcode-$prev))
-                return $locs;
+        if ($l > $postcode){
+            if(($l-$postcode)<($postcode-$previous))
+                return $l;
             else
-                return $prev;
+                return $previous;
         }else{
-
-            $prev = $locs;
-
+            $previous = $l;
         }                                        
     }
-    //return the last if no closest match previously
+
+    //return end of array if no matches
     return end($locs);
+
 }
 
 ?>
@@ -117,50 +116,50 @@ function locationProximity($locations, $postcode) {
             while (($row = oci_fetch_array($locationquery, OCI_BOTH)) != false) {
                 array_push($locationpostcodes, $row[0]);
             }
-            
+
             //run function based on users logged in postcode and locations in database
 
             $lowernumber = locationProximity($locationpostcodes, $userpostcode);
-            
+
             echo "<div class='container'>";
 
             echo "<div class='item'><h5><a href='booking.php?postcode=".$lowernumber."'>Search for Cars at my Nearest Location! </a> or</h5>";
 
         }else{
             echo "<div class='container'>";
-            
+
             echo "<div class='item'><br>";
         } ?>
 
-            <form action="#" method="post">
-                <!-- Form for user to input their own postcode instead of using their logged in postcode -->
-                <input type="text" placeholder="VIC / NSW Postcode: " name="postcode" pattern="^(2|3)([0-9]{3})" required>
-                <br><br>
-                <input type="submit" value="Find Nearest Location" name="search" id="submit">
-            </form>
-        
-                </div>
-
-
-            <?php
-        
-            while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
-                echo "<div class='item'>";
-                echo "<h3>" . $row[1] . " " . $row[0] . "</h3>";
-                echo "<p>" .$row[3] . ", " . $row[1] . " " . $row[0] . "</p>";
-                echo "<p>" .$row[2] . "</p>";
-                echo "<h6><i><b>Lat: </b>" .$row[4] . ", Lon: " . $row[5] . "</i></h6>";
-                echo "<h6><a href='booking.php?postcode=".$row[0]."'>Cars at this location!</a></h6>";
-                echo "</div>";
-            } 
-
-            oci_close($conn);
-            ?>
+        <form action="#" method="post">
+            <!-- Form for user to input their own postcode instead of using their logged in postcode -->
+            <input type="text" placeholder="VIC / NSW Postcode: " name="postcode" pattern="^(2|3)([0-9]{3})" required>
+            <br><br>
+            <input type="submit" value="Find Nearest Location" name="search" id="submit">
+        </form>
 
         </div>
 
-    </body>
 
-    <?php include 'includes/footer.php';?>
+    <?php
+
+    while (($row = oci_fetch_array($stid, OCI_BOTH)) != false) {
+        echo "<div class='item'>";
+        echo "<h3>" . $row[1] . " " . $row[0] . "</h3>";
+        echo "<p>" .$row[3] . ", " . $row[1] . " " . $row[0] . "</p>";
+        echo "<p>" .$row[2] . "</p>";
+        echo "<h6><i><b>Lat: </b>" .$row[4] . ", Lon: " . $row[5] . "</i></h6>";
+        echo "<h6><a href='booking.php?postcode=".$row[0]."'>Cars at this location!</a></h6>";
+        echo "</div>";
+    } 
+
+    oci_close($conn);
+    ?>
+
+    </div>
+
+</body>
+
+<?php include 'includes/footer.php';?>
 
 </html>

@@ -36,13 +36,13 @@ if(isset($_SESSION['user'])){
 
                 <div class="slides">
                     <div id="slide-1">
-                        <img src="img3.png" alt="logo">
+                        <img src="img/img1.jpg" alt="logo">
                     </div>
                     <div id="slide-2">
-                        <img src="img1.png" alt="logo" >
+                        <img src="img/img2.jpg" alt="logo">
                     </div>
                     <div id="slide-3">
-                        <img src="img2.png" alt="logo">
+                        <img src="img/img3.jpg" alt="logo">
                     </div>
                 </div>
             </div>

@@ -4,7 +4,10 @@ require_once('includes/dbconn.php');
 
 if(isset($_SESSION['user'])){
     //if user is logged in
-    header('Location: index.php');
+    echo '<script type="text/javascript">'; 
+    echo 'alert("Please log out before viewing the admin portal!");'; 
+    echo 'window.location.href = "index.php";';
+    echo '</script>';
 }else if(isset($_SESSION['admin'])){
     //if admin is already logged in
     header('Location: admin/index.php');

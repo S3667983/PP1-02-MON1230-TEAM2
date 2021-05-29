@@ -93,13 +93,23 @@ if(isset($_POST['return'])){
             $length = oci_result($stid, 'LENGTH');
             $priceperhour =  " $" . oci_result($stid, 'PRICE') / 500 * $length;
             $odometer = oci_result($stid, 'ODOMETER');
+            
+            //for below section
+            $postcode = oci_result($stid, 'POSTCODE');
         }
 
         $returntime = ($length * 100) + $booktime;
 
         //query to fill the return locations in the return location dropdown
-
-        $stid = 'SELECT * FROM LOCATION ORDER BY POSTCODE';
+        
+        
+        //if is nsw postcode display nsw postcodes, else display vic postcodes
+        if(substr($postcode, 0, 1) === 2){
+            $stid = 'SELECT * FROM LOCATION WHERE POSTCODE < 3000 ORDER BY POSTCODE';
+        }else{
+            $stid = 'SELECT * FROM LOCATION WHERE POSTCODE > 2999 ORDER BY POSTCODE';
+        }
+        
 
         $stid = oci_parse($conn, $stid);
         oci_execute($stid);
